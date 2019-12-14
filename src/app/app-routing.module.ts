@@ -9,8 +9,13 @@ import { PagesViewComponent } from './pages/pages-view/pages-view.component';
 
 
 const routes: Routes = [
+  {
+    path:'',
+    redirectTo:'index',
+    pathMatch:'full'
+  },
   {path:'', component: PagesViewComponent, children:[
-    {path: '', component: HomePageComponent},
+    {path: 'index', component: HomePageComponent},
     {path:'about', component:AboutComponent},
     {path:'contact', component: ContactComponent},
     {path:'service', component:ServiceComponent},
@@ -18,7 +23,7 @@ const routes: Routes = [
   ]
 },
  { path: 'login', loadChildren: './pages/auth/auth.module#AuthModule' },
-  {path:'**', redirectTo:'', pathMatch:'full'}
+  {path:'**', redirectTo:'index', pathMatch:'full'}
 ];
 
 @NgModule({
