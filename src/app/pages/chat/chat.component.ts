@@ -28,15 +28,10 @@ export class ChatComponent implements OnInit {
 
   constructor(private chatService: ChatService) { 
     this.socket$ = new WebSocketSubject(CHAT_URL);
-    this.socket$.subscribe(
-    (message) => this.serverMessages.push(message) && this.scroll(),
-    (err) => console.error(err),
-    () => console.warn('Completed!')
-    );
   }
 
   ngOnInit() {
-    
+    this.makeConnection();
     if(this.checkIfNameExist()){
       this.showForm = false; 
       this.item.channel = this.channel;
@@ -45,15 +40,13 @@ export class ChatComponent implements OnInit {
     }else{
       this.showForm = true
     }
+  }
 
-    /* this.nick = 'adewale';
-    this.adminCommands('addmod',this.nick, 'nick');
-    this.adminCommands('listusers', '','');
-   this.joinChannel();
-   
-   this.disconnect();
-   this.sendChat(); */
-   console.log(this.serverMessages);
+  makeConnection(){
+    this.socket$.subscribe(
+      (message) => this.serverMessages.push(message) && this.scroll(),
+      (err) => console.error(err),
+      () => console.warn('Completed!'));
   }
    
  
@@ -78,17 +71,13 @@ export class ChatComponent implements OnInit {
 
 checkIfNameExist(){
   let name = this.getItem('nick-name');
-  if(name){
-    this.showForm = false;
-    return true;
-  }
+  if(name){ this.showForm = false; return true;}
   this.showForm = true;
   return false;
 }
 
 sendChat(item){
-
-  if(!isNullOrUndefined(item) && !isNullOrUndefined(this.message)){
+  if(item && this.message){
     item.cmd = 'chat';
     item.text = this.message;
     const message:IChatGeneric<any> = item;
@@ -96,13 +85,12 @@ sendChat(item){
       this.socket$.next(message);
       this.message = '';
   }
-
- 
+  return false;
   
 }
 get cmd(){
   let text = this.serverMessages.find( x => (<any>x).cmd === 'warn');
-  console.log(text);
+ //  console.log(text);
   return text;
   
 }
@@ -110,6 +98,7 @@ onKeydown(e){
   if(e.key === 'Enter'){
      this.sendChat(this.item);
   }
+  
    
 }
 

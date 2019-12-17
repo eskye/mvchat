@@ -8,8 +8,7 @@ import { webSocket, WebSocketSubject } from "rxjs/webSocket";
 @Injectable({
   providedIn: 'root'
 })
-export class WebSocketService {
-
+export class WebSocketService { 
   constructor() { }
   private subject: Subject<MessageEvent>;
   

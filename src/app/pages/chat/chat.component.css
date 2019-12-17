@@ -144,3 +144,18 @@ li.list-item {
   width:100%!important;
   color:#fff!important;
 }
+button:focus{
+  outline: none !important;
+}
+@media only screen and (min-device-width : 320px) and (max-device-width : 1024px) {
+  /* Styles */
+  .inbox_people{
+      width:100%;
+      height:116px;
+  }
+  .mesgs{
+    width:100%;
+  }
+
+  }
+
