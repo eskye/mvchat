@@ -1,5 +1,5 @@
  <!--================Home Banner Area =================-->
-<!--  <section class="home_banner_area">
+ <section class="home_banner_area">
     <div class="banner_inner">
         <div class="container">
             <div class="banner_content">
@@ -10,7 +10,7 @@
             </div>
         </div>
     </div>
-</section> -->
+</section>
 <!--================End Home Banner Area =================-->
 
 <!--================Welcome Area =================-->
@@ -29,8 +29,8 @@
                 <div class="col-md-9 col-sm-12 offset-md-1">
                     <div class="card">
                         <div class="card-header"> 
-                          <h4 class="strong">{{showForm ? 'Please enter your name':nickName}}</h4>
-                          <h5 class="strong float-right">Current Channel: {{showForm ? 'Awaiting Channel Name':channel|uppercase}}</h5>
+                          <h4 class="strong">Name: {{showForm ? 'Please enter your name':nickName}}</h4>
+                          <h4 class="strong">Current Channel: {{showForm ? 'Awaiting Channel Name':channel|uppercase}}</h4>
                         </div>
                         <div class="card-body">
                             <form #f="ngForm" (ngSubmit)="joinChannel()" *ngIf="showForm">

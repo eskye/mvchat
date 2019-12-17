@@ -147,6 +147,10 @@ li.list-item {
 button:focus{
   outline: none !important;
 }
+.home_banner_area {
+  min-height: 500px !important;
+}
+
 @media only screen and (min-device-width : 320px) and (max-device-width : 1024px) {
   /* Styles */
   .inbox_people{
@@ -156,6 +160,8 @@ button:focus{
   .mesgs{
     width:100%;
   }
+
+
 
   }
 
