@@ -1,10 +1,12 @@
-import { IChatMessage, IChatGeneric } from './../../Models/IChat';
+import { IChatGeneric } from './../../Models/IChat';
 import { Component, OnInit, ViewChild, ElementRef } from '@angular/core';
 import { ChatService } from 'src/app/services/chat.service';
-import { webSocket, WebSocketSubject } from "rxjs/webSocket";
+import { WebSocketSubject } from "rxjs/webSocket"; 
 import { isNullOrUndefined } from 'util';
 
 const CHAT_URL = 'wss://hack.chat/chat-ws';
+const channelKey = 'channel';
+const nickName = 'nick-name';
 @Component({
   selector: 'app-chat',
   templateUrl: './chat.component.html',
@@ -12,7 +14,7 @@ const CHAT_URL = 'wss://hack.chat/chat-ws';
 })
 export class ChatComponent implements OnInit {
   private socket$: WebSocketSubject<IChatGeneric<any>>;
-
+  
   serverMessages: Array<IChatGeneric<any>> = [];
 
   @ViewChild('viewer',{static:true}) private viewer: ElementRef;
@@ -58,8 +60,8 @@ export class ChatComponent implements OnInit {
         this.socket$.next(message);
       if(isNullOrUndefined(this.nickName) && isNullOrUndefined(this.channel)){
         
-        this.setItem('nick-name', this.item.nick);
-        this.setItem('channel', this.item.channel);
+        this.setItem(nickName, this.item.nick);
+        this.setItem(channelKey, this.item.channel);
       }
      this.item = {};
       this.checkIfNameExist();
@@ -70,7 +72,7 @@ export class ChatComponent implements OnInit {
 }
 
 checkIfNameExist(){
-  let name = this.getItem('nick-name');
+  let name = this.getItem(nickName);
   if(name){ this.showForm = false; return true;}
   this.showForm = true;
   return false;
@@ -133,7 +135,7 @@ submitChat(){
   }
 
   disconnect(){
-    const message:IChatGeneric<any> = { cmd: 'disconnect'} 
+    const message:IChatGeneric<any> = { cmd: 'disconnect', cmdKey:this.nickName} 
     this.socket$.next(message);
     this.clear();
   }
@@ -150,16 +152,15 @@ private getDiff(): number {
   if (!this.viewer) {
       return -1;
   }
-
   const nativeElement = this.viewer.nativeElement;
   return nativeElement.scrollHeight - (nativeElement.scrollTop + nativeElement.clientHeight);
 }
 get nickName(){
-  return this.getItem('nick-name');
+  return this.getItem(nickName);
 }
 
 get channel(){
-  return this.getItem('channel');
+  return this.getItem(channelKey);
 }
 
 private scrollToBottom(t = 1, b = 0): void {
@@ -188,6 +189,8 @@ private setItem(key, data){
 }
 private clear(){
   this.showForm = true;
+  window.localStorage.removeItem(channelKey);
+  window.localStorage.removeItem(nickName);
   window.localStorage.clear();
 }
 sendMsg() {
