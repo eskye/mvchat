@@ -148,8 +148,16 @@ button:focus{
   outline: none !important;
 }
 .home_banner_area {
-  min-height: 500px !important;
+  min-height: 500px !important; 
+  background: url(src/assets/img/banner/banner-chat.png) no-repeat scroll center center;
+  background-size: cover;
 }
+.banner_inner{
+  background: rgba(0, 0, 0, 0.54) !important;
+}
+
+ 
+
 
 @media only screen and (min-device-width : 320px) and (max-device-width : 1024px) {
   /* Styles */
